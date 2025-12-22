@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "components/discover/NewsCard.jsx", "app/(home)/discover/page.jsx"  ],
   "exclude": ["node_modules"]
 }

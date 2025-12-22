@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/my-bucket/**',
+      },
+    ],
+  },
+
+// Remove bold/italic markdown
+  // reply = reply
+    //   .replace(/\*\*/g, "")
+    //   .replace(/\*/g, "")
+    //   .replace(/_+/g, "")
+    //   // Fix multiple spaces
+    //   .replace(/\s{2,}/g, " ")
+    //   // Remove extra blank lines
+    //   .replace(/\n\s*\n/g, "\n")
+    //   .trim();
