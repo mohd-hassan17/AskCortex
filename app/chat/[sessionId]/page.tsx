@@ -148,15 +148,15 @@ export default function ChatPage({
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#202222] text-[#ececec]">
+    <div className="flex flex-col h-screen ">
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 pb-32 scrollbar-thin">
         <Messages messages={messages} />
       </div>
 
       {/* Input */}
-      <div className="sticky bottom-0 bg-linear-to-t from-[#202222] via-[#202222] to-transparent">
-        <div className="max-w-3xl mx-auto px-4">
+      <div className="sticky bottom-0 ">
+        <div className=" mx-auto px-4">
           
 <ChatInput
   input={input}

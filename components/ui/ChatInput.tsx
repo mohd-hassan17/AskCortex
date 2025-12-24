@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { ArrowUp, Paperclip, Mic, Square, Globe } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ChatInputProps {
   input: string;
@@ -142,107 +143,110 @@ export default function ChatInput({
     : "Message Cortex...";
 
   return (
-    <div className="w-full bg-linear-to-t from-[#202222] via-[#202222] to-transparent pt-6 pb-6">
-      <div className="mx-auto max-w-3xl px-4 space-y-3">
-        
-        {/* Input box */}
-        <div
-          onSubmit={handleFormSubmit}
-          className={`relative bg-[#2a2d2d] rounded-3xl border shadow-2xl transition-all duration-200 ${
-            isListening
-              ? "border-[#20808d] ring-2 ring-[#20808d]/30"
-              : "border-[#3f4447] focus-within:border-[#4a4e51]"
-          }`}
-        >
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={handleInputChange}
-            onKeyDown={onKeyDown}
-            placeholder={placeholder}
-            rows={1}
+    <div className="w-full pt-6 pb-6">
+  <div className="mx-auto max-w-3xl px-4 space-y-3">
+    {/* Input box */}
+    <div
+      onSubmit={handleFormSubmit}
+      className={cn(
+        "relative rounded-3xl border bg-muted/70 backdrop-blur-xl shadow-2xl transition-all duration-200",
+        isListening
+          ? "border-primary ring-2 ring-primary/30"
+          : "border-border focus-within:border-primary/50"
+      )}
+    >
+      <textarea
+        ref={textareaRef}
+        value={input}
+        onChange={handleInputChange}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        rows={1}
+        disabled={isLoading}
+        className="w-full resize-none bg-transparent px-5 pt-4 pb-4 pr-14 text-foreground placeholder:text-muted-foreground focus:outline-none text-base max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent disabled:opacity-60"
+        style={{ minHeight: "52px" }}
+      />
+
+      {/* Action Buttons */}
+      <div className="flex items-center justify-between px-3 pb-3">
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={toggleMode}
             disabled={isLoading}
-            className="w-full bg-transparent resize-none px-5 pt-4 pb-4 pr-14 text-[#ececec] placeholder:text-[#787878] focus:outline-none text-base max-h-[200px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3f4447] scrollbar-track-transparent disabled:opacity-60"
-            style={{ minHeight: "52px" }}
-          />
+            className={cn(
+              "p-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+              mode === "research"
+                ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                : "hover:bg-muted text-muted-foreground"
+            )}
+            title={
+              mode === "research"
+                ? "Switch to chat mode"
+                : "Switch to search mode"
+            }
+          >
+            <Globe size={18} />
+          </button>
 
-          {/* Action Buttons */}
-          <div className="flex items-center justify-between px-3 pb-3">
-            <div className="flex items-center gap-1">
-              {/* Globe Icon - Toggle Search Mode */}
-              <button
-                type="button"
-                onClick={toggleMode}
-                disabled={isLoading}
-                className={`p-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                  mode === "research"
-                    ? "bg-[#20808d] text-white shadow-lg shadow-[#20808d]/20"
-                    : "hover:bg-[#343738] text-[#b4b4b4]"
-                }`}
-                title={mode === "research" ? "Switch to chat mode" : "Switch to search mode"}
-              >
-                <Globe size={18} />
-              </button>
+          <button
+            type="button"
+            disabled={isLoading}
+            className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Attach file"
+          >
+            <Paperclip size={18} />
+          </button>
 
-              {/* Attachment Button */}
-              <button
-                type="button"
-                disabled={isLoading}
-                className="p-2 rounded-lg hover:bg-[#343738] transition-colors text-[#b4b4b4] disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Attach file"
-              >
-                <Paperclip size={18} />
-              </button>
-
-              {/* Microphone Button */}
-              {speechSupported && (
-                <button
-                  type="button"
-                  onClick={toggleMic}
-                  disabled={isLoading}
-                  className={`p-2 rounded-lg transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
-                    isListening
-                      ? "bg-[#20808d]/20 text-[#20808d] animate-pulse"
-                      : "hover:bg-[#343738] text-[#b4b4b4]"
-                  }`}
-                  title={isListening ? "Stop listening" : "Voice input"}
-                >
-                  {isListening ? (
-                    <Square size={18} fill="currentColor" />
-                  ) : (
-                    <Mic size={18} />
-                  )}
-                </button>
-              )}
-            </div>
-
-            {/* Submit Button */}
+          {speechSupported && (
             <button
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                if (input.trim() && !isLoading) {
-                  handleSubmit(e as any);
-                }
-              }}
-              disabled={!input.trim() || isLoading}
-              className={`p-2.5 rounded-xl transition-all ${
-                input.trim() && !isLoading
-                  ? "bg-[#20808d] hover:bg-[#1a6f7a] text-white shadow-lg shadow-[#20808d]/20"
-                  : "bg-[#343738] text-[#787878] cursor-not-allowed"
-              }`}
-              title="Send message"
+              type="button"
+              onClick={toggleMic}
+              disabled={isLoading}
+              className={cn(
+                "p-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+                isListening
+                  ? "bg-primary/20 text-primary animate-pulse"
+                  : "hover:bg-muted text-muted-foreground"
+              )}
+              title={isListening ? "Stop listening" : "Voice input"}
             >
-              <ArrowUp size={20} strokeWidth={2.5} />
+              {isListening ? (
+                <Square size={18} fill="currentColor" />
+              ) : (
+                <Mic size={18} />
+              )}
             </button>
-          </div>
+          )}
         </div>
 
-        {/* Footer Text */}
-        <p className="text-center text-[11px] text-[#787878] mt-1">
-          Cortex can make mistakes. Double-check important information.
-        </p>
+        <button
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+            if (input.trim() && !isLoading) {
+              handleSubmit(e as any);
+            }
+          }}
+          disabled={!input.trim() || isLoading}
+          className={cn(
+            "p-2.5 rounded-xl transition-all",
+            input.trim() && !isLoading
+              ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90"
+              : "bg-muted text-muted-foreground cursor-not-allowed"
+          )}
+          title="Send message"
+        >
+          <ArrowUp size={20} strokeWidth={2.5} />
+        </button>
       </div>
     </div>
+
+    <p className="text-center text-[11px] text-muted-foreground mt-1">
+      Cortex can make mistakes. Double-check important information.
+    </p>
+  </div>
+</div>
+
   );
 }

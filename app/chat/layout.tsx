@@ -25,13 +25,13 @@ export default async function RootLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full bg-[#0d0d0d] text-gray-100">
+      <div className="flex h-screen w-full  text-gray-100">
 
         {/* Sidebar */}
         <AppSidebar session={session} />
 
         {/* Content area */}
-        <div className="flex flex-1 flex-col bg-[#202222]">
+        <div className="flex flex-1 flex-col ">
 
           {/* Top bar */}
           <header className="p-2 border-b border-gray-800 flex items-center justify-between">

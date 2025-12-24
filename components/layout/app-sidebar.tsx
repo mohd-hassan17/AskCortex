@@ -1,6 +1,5 @@
-"use client"
+"use client";
 
-import * as React from "react"
 import {
   AudioWaveform,
   BookOpen,
@@ -15,13 +14,14 @@ import {
   Search,
   Compass,
   GalleryHorizontalEnd,
-} from "lucide-react"
+  Pencil,
+} from "lucide-react";
 
-import { NavMain } from "./nav-main"
-import { NavProjects } from "./nav-projects"
-import { NavUser } from "./nav-user"
-import { TeamSwitcher } from "./team-switcher"
-import { redirect } from 'next/navigation';
+import { NavMain } from "./nav-main";
+import { NavProjects } from "./nav-projects";
+import { NavUser } from "./nav-user";
+import { TeamSwitcher } from "./team-switcher";
+import { redirect } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -32,14 +32,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import Image from "next/image"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { signOut } from "@/lib/auth-client"
+} from "@/components/ui/sidebar";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { signOut } from "@/lib/auth-client";
+import { useState } from "react";
 
 // This is sample data.
 const data = {
@@ -86,44 +83,43 @@ const data = {
         },
       ],
     },
-  
   ],
   projects: [
     {
       name: "Hover scale effect",
       url: "#",
-     
     },
     {
       name: "Register and login flow",
       url: "#",
-      
     },
     {
       name: "Dashboard UI Design",
       url: "#",
-      
     },
     {
       name: "Marketing site content",
       url: "#",
-     
     },
     {
       name: "AI Chatbot integration",
       url: "#",
-      
     },
     {
       name: "Performance optimization",
       url: "#",
-    }
+    },
   ],
   MenuOptions: [
     {
-      title: "Home",
-      icon: Search,
+      title: "New chat",
+      icon: Pencil,
       url: "/",
+    },
+    {
+      title: "Search chat",
+      icon: Search,
+      // url: "/",
     },
     {
       title: "Discover",
@@ -134,68 +130,65 @@ const data = {
       title: "Library",
       icon: GalleryHorizontalEnd,
       url: "/library",
-    }
-  ]
-}
+    },
+  ],
+};
 
-export function AppSidebar({ session, ...props }: React.ComponentProps<typeof Sidebar> & { session: any }) {
+export function AppSidebar({
+  session,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { session: any }) {
+  const [searchQuery, setSearchQuery] = useState("");
 
   async function handleLogout() {
-        await signOut({
-            fetchOptions: {
-                onSuccess: () => {
-                    redirect('/sign-in');
-                },
-            },
-        });
-    }
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          redirect("/sign-in");
+        },
+      },
+    });
+  }
 
   return (
     <Sidebar collapsible="icon" {...props}>
-     
-       <SidebarHeader>
-          <SidebarMenuItem>
-           
-    <a href="/" >
-      <div className="flex items-center justify-center px-2  py-3 ">
-  <Avatar className="h-8 w-8 rounded-lg transition-transform duration-200 ease-out hover:scale-110 ">
-                <AvatarImage src={"/favicon.ico"} alt='AC' />
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+      <SidebarHeader>
+        <SidebarMenuItem>
+          <a href="/">
+            <div className="flex items-center justify-center px-2  py-3 ">
+              <Avatar className="h-8 w-8 rounded-lg transition-transform duration-200 ease-out hover:scale-110 ">
+                <AvatarImage src={"/favicon.ico"} alt="AC" />
                 {/* <span className="truncate font-medium ">AskCortex</span> */}
-              </div>
-      </div>
-  </a>
-
-          </SidebarMenuItem>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight"></div>
+            </div>
+          </a>
+        </SidebarMenuItem>
       </SidebarHeader>
-      <SidebarContent >
-        <SidebarGroup >
-        
-        <SidebarContent>
-          <SidebarMenu>
-           {data.MenuOptions.map((option, index) => (
-              <SidebarMenuItem key={index}>
-                <SidebarMenuButton asChild className={' py-5 '}>
-                  <a href={option.url} className="">
-                    <option.icon className="size-10" />
-                    <span className="text-[15px]">{option.title}</span>
-                  </a>
-                </SidebarMenuButton> 
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarContent>
+            <SidebarMenu>
+              {data.MenuOptions.map((option, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton asChild className={" py-5 "}>
+                    <a href={option.url} className="">
+                      <option.icon className="size-10" />
+                      <span className="text-[15px]">{option.title}</span>
+                    </a>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
-           ))}
+              ))}
 
-           <NavProjects projects={data.projects} />
-       
-          </SidebarMenu >
-
-        </SidebarContent>
-        </SidebarGroup >
+              <NavProjects projects={data.projects} />
+            </SidebarMenu>
+          </SidebarContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} session={session} onLogout={handleLogout} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

@@ -4,7 +4,6 @@ import ChatInput from "@/components/ui/ChatInput";
 import { useRouter } from "next/navigation";
 import { nanoid } from "nanoid";
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function Hero() {
   
@@ -28,9 +27,9 @@ export default function Hero() {
 
   return (
     <section className="flex flex-col items-center text-center p-10 rounded-xl">
-      <h1 className="text-5xl sm:text-6xl font-semibold leading-tight">
+      {/* <h1 className="text-5xl sm:text-6xl font-semibold leading-tight">
         Ask Cortex
-      </h1>
+      </h1> */}
 
       
       <div className="w-full flex justify-center">
@@ -40,10 +39,10 @@ export default function Hero() {
           handleSubmit={handleSubmit}
           isLoading={false}
           mode={mode}
-  onModeChange={(val) => {
-    setMode(val);
-    setUseWeb(val === "research"); // same logic as before
-  }}
+          onModeChange={(val) => {
+          setMode(val);
+          setUseWeb(val === "research"); 
+          }}
         />
       </div>
     </section>

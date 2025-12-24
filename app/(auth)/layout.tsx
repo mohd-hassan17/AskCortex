@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const  metadata = {
-  title: "Auth | AskCortex",
+  title: "AskCortex | signIn ",
   description: "Authenticate to access AskCortex's AI-powered features.",
 };
 
