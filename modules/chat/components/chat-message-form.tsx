@@ -5,6 +5,10 @@ import { ArrowUp, Paperclip, Mic, Square, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
+// import { useAIModels } from "@/ai-agent/hook/ai-agent";
+import { useAIModels } from "@/modules/ai-agent/hook/ai-agent";
+import { ModelSelector } from "./model-selector";
+import { Spinner } from "@/components/ui/spinner";
 
 interface ChatMessageFormProps {
   initialMessage: string;
@@ -22,7 +26,9 @@ export default function ChatMessageForm({
   onModeChange,
 }: ChatMessageFormProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { data: models, isPending, error } = useAIModels();
   const [message, setMessage] = useState("");
+  const [selectedModel, setSelectedModel] = useState(models?.models[0].id);
 
   // Sync selected welcome message
   useEffect(() => {
@@ -99,7 +105,18 @@ export default function ChatMessageForm({
           {/* Action Buttons */}
           <div className="flex items-center justify-between px-3 pb-3">
             <div className="flex items-center gap-1">
-              <Button variant="outline">Select a model</Button>
+                {isPending ? (
+                <>
+                  <Spinner />
+                </>
+              ) : (
+                <ModelSelector
+                  models={models?.models}
+                  selectedModelId={selectedModel}
+                  onModelSelect={setSelectedModel}
+                  className="ml-1"
+                />
+              )}
 
               <button
                 type="button"

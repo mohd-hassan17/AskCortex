@@ -25,7 +25,7 @@ const ChatMessageView = ({ user }: any) => {
       </div>
 
       {/* Bottom input */}
-      <div className="p-15">
+      <div className="p-15 ">
         <ChatMessageForm
           initialMessage={selectedMessage}
           onMessageChange={handleMessageChange}
