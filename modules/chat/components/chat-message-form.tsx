@@ -5,10 +5,11 @@ import { ArrowUp, Paperclip, Mic, Square, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useSpeechRecognition } from "../hooks/useSpeechRecognition";
-// import { useAIModels } from "@/ai-agent/hook/ai-agent";
 import { useAIModels } from "@/modules/ai-agent/hook/ai-agent";
 import { ModelSelector } from "./model-selector";
 import { Spinner } from "@/components/ui/spinner";
+import { useCreateChat } from "../hooks/chat";
+import { toast } from "sonner";
 
 interface ChatMessageFormProps {
   initialMessage: string;
@@ -26,6 +27,7 @@ export default function ChatMessageForm({
   onModeChange,
 }: ChatMessageFormProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const {mutateAsync, isPending: isChatPending } = useCreateChat();
   const { data: models, isPending, error } = useAIModels();
   const [message, setMessage] = useState("");
   const [selectedModel, setSelectedModel] = useState(models?.models[0].id);
@@ -45,15 +47,14 @@ export default function ChatMessageForm({
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!message.trim()) return;
-
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      // submit logic here
+      e.preventDefault();
+      await mutateAsync({ content: message, model: selectedModel });
+      toast.success("Message sent successfully");
     } catch (error) {
       console.error("Error sending message:", error);
+      toast.error("Failed to send message");
     } finally {
       setMessage("");
     }
@@ -168,9 +169,9 @@ export default function ChatMessageForm({
               )}
             </div>
 
-            <button
+            <Button
               type="submit"
-              disabled={!message.trim() || isLoading}
+              disabled={!message.trim()}
               className={cn(
                 "p-2.5 rounded-xl transition-all",
                 message.trim() && !isLoading
@@ -179,8 +180,8 @@ export default function ChatMessageForm({
               )}
               title="Send message"
             >
-              <ArrowUp size={20} strokeWidth={2.5} />
-            </button>
+              {isChatPending ? <Spinner className="" /> : <ArrowUp size={20} strokeWidth={2.5} />}
+            </Button>
           </div>
         </form>
 

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { LucideShare, Share, Share2 } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "@/lib/theme-toggle";
+import { currentUser } from "@/modules/auth/actions";
+import { getAllChats } from "@/modules/chat/actions";
 
 export const metadata = {
   title: "AskCortex",
@@ -24,11 +26,15 @@ export default async function RootLayout({
     headers: await headers(), 
   });
 
+  const user = await currentUser();
+
+  const {data: chats} = await getAllChats();
+ 
   return (
    <SidebarProvider>
   <div className="flex h-screen w-full bg-background text-foreground">
     {/* Sidebar */}
-    <AppSidebar session={session} />
+    <AppSidebar  user={user} chats={chats || []} />
 
     {/* Content area */}
     <div className="flex flex-1 flex-col bg-background">
