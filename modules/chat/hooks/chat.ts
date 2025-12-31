@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createChatWithMessage, deleteChat } from "../actions";
+import { createChatWithMessage, deleteChat, getChatById } from "../actions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -16,7 +16,6 @@ export const useCreateChat = () => {
         queryClient.invalidateQueries({
           queryKey: ["chats"],
         });
-
         // Redirect WITH autoTrigger to stream AI response
         router.push(`/chat/${chat.id}?autoTrigger=true`);
       }
@@ -43,5 +42,11 @@ export const useDeleteChat  = (chatId: string) => {
       toast.error("Failed to delete chat");
     },
   });
+}
 
+export const useGetChatById = (chatId: string) => {
+  return useQuery({
+    queryKey: ["chats", chatId],
+    queryFn: () => getChatById(chatId),
+  });
 }

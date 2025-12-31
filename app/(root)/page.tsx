@@ -9,13 +9,7 @@ export default async function Home() {
   return (
     <>
     <ChatMessageView user={user} />
-    
     </>
   );
-    // <div className="flex flex-1 items-center justify-center p-6 mt-30">
-    //   <div className="w-full max-w-4xl">
-        {/* <Hero /> */}
-    //   </div>
-    // </div>
 }
 
