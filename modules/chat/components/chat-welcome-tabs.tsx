@@ -66,7 +66,7 @@ function ChatWelcomeTabs({ userName = "", onMessageSelect }: any) {
               key={tab.tabName}
               variant={activeTab === index ? "default" : "secondary"}
               onClick={() => setActiveTab(index)}
-              className="w-[110px] justify-start"
+              className="w-27.5 justify-start"
             >
               {tab.icon}
               <span className="ml-2">{tab.tabName}</span>

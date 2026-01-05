@@ -38,6 +38,7 @@ import { cn } from "@/lib/utils";
 import type { ChatStatus, FileUIPart } from "ai";
 import {
   CornerDownLeftIcon,
+  ArrowUp,
   ImageIcon,
   Loader2Icon,
   MicIcon,
@@ -469,6 +470,8 @@ export const PromptInput = ({
       formRef.current = root;
     }
   }, []);
+
+
 
   // ----- Local attachments (only used when no provider)
   const [items, setItems] = useState<(FileUIPart & { id: string })[]>([]);
@@ -995,7 +998,7 @@ export const PromptInputSubmit = ({
   children,
   ...props
 }: PromptInputSubmitProps) => {
-  let Icon = <CornerDownLeftIcon className="size-4" />;
+  let Icon = <ArrowUp className="size-4" />;
 
   if (status === "submitted") {
     Icon = <Loader2Icon className="size-4 animate-spin" />;
@@ -1375,4 +1378,16 @@ export const PromptInputCommandSeparator = ({
   ...props
 }: PromptInputCommandSeparatorProps) => (
   <CommandSeparator className={cn(className)} {...props} />
+);
+
+
+export type PromptInputToolbarProps = HTMLAttributes<HTMLDivElement>;
+
+export const PromptInputToolbar = ({
+  className,
+  ...props
+}: PromptInputToolbarProps) => (
+  <div
+    className={cn("flex items-center justify-between p-1", className)}
+    {...props} />
 );

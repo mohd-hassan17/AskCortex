@@ -6,11 +6,13 @@ import { headers } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 import Link from "next/link";
+import { currentUser } from "@/modules/auth/actions";
+import { getAllChats } from "@/modules/chat/actions";
 
 export const metadata = {
   title: {
     default: "Features | AskCortex",
-    template: "%s | AskCortex",
+    template: " AskCortex | %s",
     absolute: ""
   },
   description: "Discover the powerful features of AskCortex, your AI-powered assistant for seamless knowledge management and collaboration.",
@@ -26,18 +28,22 @@ export default async function RootLayout({
         headers: await headers(), 
     });
 
+     const user = await currentUser();
+    
+      const {data: chats} = await getAllChats();
+
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full bg-[#0d0d0d] text-gray-100">
+       <div className="flex h-screen w-full bg-background text-foreground">
 
         {/* Sidebar */}
-        <AppSidebar session={session} />
+        <AppSidebar  user={user} chats={chats || []} />
 
         {/* Content area */}
-        <div className="flex flex-1 flex-col bg-[#202222]">
+        <div className="flex flex-1 flex-col bg-background">
 
           {/* Top bar */}
-          <header className="p-2 border-b border-gray-800 flex items-center justify-between">
+      <header className="p-2 border-b border-border flex items-center justify-between">
   <SidebarTrigger />
 
   <div className="flex items-center gap-3">
@@ -49,14 +55,14 @@ export default async function RootLayout({
 ) : null}
 
     {/* Share button */}
-    <button className="p-2 rounded-full hover:bg-[#333535] transition flex items-center gap-1 cursor-pointer" >
+    <button 
+    className="flex items-center gap-1">
       <Share2 className="w-4 h-4" /> 
       <span className="text-sm">Share</span>
     </button>
 
   </div>
 </header>
-
 
           {/* Page area */}
           <main className="flex-1 overflow-y-auto p-4">

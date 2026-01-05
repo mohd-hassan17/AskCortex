@@ -30,15 +30,15 @@ interface ChatMessage {
   loading?: boolean
 }
 
-export default function Messages({ messages }: { messages: ChatMessage[] }) {
-  return (
-    <div className="max-w-4xl mx-auto space-y-6 px-4 sm:px-6">
-      {messages.map((m, i) =>
-        m.sender === "user" ? <UserBubble key={i} content={m.content} /> : <BotMessage key={i} message={m} />,
-      )}
-    </div>
-  )
-}
+// export default function Messages({ messages }: { messages: ChatMessage[] }) {
+//   return (
+//     <div className="max-w-4xl mx-auto space-y-6 px-4 sm:px-6">
+//       {messages.map((m, i) =>
+//         m.sender === "user" ? <UserBubble key={i} content={m.content} /> : <BotMessage key={i} message={m} />,
+//       )}
+//     </div>
+//   )
+// }
 
 function UserBubble({ content }: { content: string }) {
   return (
@@ -192,18 +192,18 @@ function CodeBlock({
       </button>
 
       {/* SHARE (optional like screenshot) */}
-      <button
+      {/* <button
         onClick={() => console.log("Share clicked")}
         className="hover:text-white transition-colors"
         title="Share"
       >
         <Share className="w-4 h-4" />
-      </button>
+      </button> */}
     </div>
   )
 }
 
-function BotMessage({ message }: { message: ChatMessage }) {
+export function BotMessage({ message }: { message: ChatMessage }) {
   const hasLinks = (message.sources || []).length > 0
   const hasImages = (message.images || []).length > 0
   const [feedback, setFeedback] = useState<"up" | "down" | null>(null)

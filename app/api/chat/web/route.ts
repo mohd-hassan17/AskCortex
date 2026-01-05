@@ -1,7 +1,6 @@
-// app/api/chat/web/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import systemPrompt from "@/prompts/system";
+import {CHAT_SYSTEM_PROMPT } from "@/lib/prompt";
 
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -97,7 +96,7 @@ Rules:
     const messages = [
       {
         role: "system" as const,
-        content: systemPrompt + "\n\n" + webRules,
+        content: CHAT_SYSTEM_PROMPT + "\n\n" + webRules,
       },
       ...historyMessages,
       {

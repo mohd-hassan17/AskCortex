@@ -77,11 +77,15 @@ model Verification {
   @@map("verification")
 }
 
-
+enum ChatMode {
+  CHAT
+  RESEARCH
+}
 model Chat {
   id        String    @id @default(cuid())
   title     String
   model     String    
+  mode      ChatMode @default(CHAT) //  NEW
   userId    String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   messages  Message[]
@@ -111,6 +115,7 @@ model Message {
   model       String?
   chatId      String
   chat        Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  metadata    Json?       // (sources, images)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 

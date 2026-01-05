@@ -58,12 +58,12 @@ export default async function RootLayout({
             <Share2 className="w-4 h-4" />
             <span className="text-sm">Share</span>
           </Button>
-          <ThemeToggle />
+          
         </div>
       </header>
 
       {/* Page area */}
-      <main className="flex-1 overflow-hidden">
+      <main className="h-screen overflow-hidden">
         {children}
       </main>
     </div>

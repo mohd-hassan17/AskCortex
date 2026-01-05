@@ -133,16 +133,16 @@ const data = {
       icon: Search,
       action: "search",
     },
-    {
-      title: "Discover",
-      icon: Compass,
-      url: "/discover",
-    },
-    {
-      title: "Library",
-      icon: GalleryHorizontalEnd,
-      url: "/library",
-    },
+    // {
+    //   title: "Discover",
+    //   icon: Compass,
+    //   url: "/discover",
+    // },
+    // {
+    //   title: "Library",
+    //   icon: GalleryHorizontalEnd,
+    //   url: "/library",
+    // },
   ],
 };
 
@@ -323,7 +323,11 @@ export function AppSidebar({
               </SidebarMenuItem>
             )
           })}
-              <NavProjects  chats={chats}  />
+          {chats.length > 0 && (
+            <SidebarMenuItem>
+              <NavProjects chats={chats} />
+            </SidebarMenuItem>
+          )}
             </SidebarMenu>
           </SidebarContent>
         </SidebarGroup>
@@ -370,7 +374,7 @@ export function AppSidebar({
     </div>
 
     {/* 📜 Thread list */}
-    <div className="flex-1 overflow-y-auto px-2 max-h-[420px]">
+    <div className="flex-1 overflow-y-auto px-2 max-h-105">
       {filteredChats.length === 0 ? (
         <div className="py-8 text-center text-sm text-muted-foreground">
           {searchQuery ? "No chats found" : "No chats yet"}

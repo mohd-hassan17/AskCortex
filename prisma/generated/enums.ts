@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const ChatMode = {
+  CHAT: 'CHAT',
+  RESEARCH: 'RESEARCH'
+} as const
+
+export type ChatMode = (typeof ChatMode)[keyof typeof ChatMode]
+
+
 export const MessageRole = {
   USER: 'USER',
   ASSISTANT: 'ASSISTANT'

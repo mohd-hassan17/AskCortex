@@ -50,8 +50,12 @@ export default function ChatMessageForm({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      await mutateAsync({ content: message, model: selectedModel });
-      toast.success("Message sent successfully");
+      if(!selectedModel){
+        toast.error("Please select a model");
+        return;
+      }
+      await mutateAsync({ content: message, model: selectedModel, mode });
+      // toast.success("Message sent successfully");
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message");
@@ -85,7 +89,7 @@ export default function ChatMessageForm({
         <form
           onSubmit={handleSubmit}
           className={cn(
-            "relative rounded-3xl border bg-muted/70 backdrop-blur-xl shadow-2xl transition-all duration-200",
+            "relative rounded-3xl  bg-muted/65 backdrop-blur-xl shadow-2xl transition-all duration-200",
             isListening
               ? "border-primary ring-2 ring-primary/30"
               : "border-border focus-within:border-primary/50"
@@ -99,7 +103,7 @@ export default function ChatMessageForm({
             placeholder={placeholder}
             rows={1}
             disabled={isLoading}
-            className="w-full resize-none bg-transparent px-5 pt-4 pb-4 pr-14 text-foreground placeholder:text-muted-foreground focus:outline-none text-base max-h-[200px] overflow-y-auto disabled:opacity-60"
+            className="w-full resize-none bg-transparent px-5 pt-4 pb-4 pr-14 text-foreground placeholder:text-muted-foreground focus:outline-none text-base max-h-50 overflow-y-auto disabled:opacity-60"
             style={{ minHeight: "52px" }}
           />
 
@@ -138,15 +142,7 @@ export default function ChatMessageForm({
                 <Globe size={18} />
               </button>
 
-              <button
-                type="button"
-                disabled={isLoading}
-                className="p-2 rounded-lg hover:bg-muted text-muted-foreground disabled:opacity-50"
-                title="Attach file"
-              >
-                <Paperclip size={18} />
-              </button>
-
+             
               {isSupported && (
                 <button
                   type="button"
@@ -173,10 +169,10 @@ export default function ChatMessageForm({
               type="submit"
               disabled={!message.trim()}
               className={cn(
-                "p-2.5 rounded-xl transition-all",
+                "p-2.5 rounded-2xl transition-all border-2",
                 message.trim() && !isLoading
                   ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90"
-                  : "bg-muted text-muted-foreground cursor-not-allowed"
+                  : "bg-primary text-primary-foreground cursor-not-allowed"
               )}
               title="Send message"
             >

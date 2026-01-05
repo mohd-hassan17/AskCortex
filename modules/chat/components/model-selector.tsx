@@ -20,20 +20,56 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
+interface ModelArchitecture {
+  modality: string;
+  tokenizer: string;
+  input_modalities: string[];
+  output_modalities: string[];
+}
+
+interface ModelPricing {
+  prompt: string;
+  completion: string;
+  request: string;
+  [key: string]: string;
+}
+
+interface TopProvider {
+  max_completion_tokens: number;
+  is_moderated: boolean;
+}
+
+interface Model {
+  id: string;
+  name: string;
+  description: string;
+  context_length: number | null;
+  architecture: ModelArchitecture;
+  pricing: ModelPricing;
+  top_provider: TopProvider;
+}
+
+interface ModelSelectorProps {
+  models: Model[];
+  selectedModelId: string;
+  onModelSelect: (modelId: string) => void;
+  className?: string;
+}
+
 export function ModelSelector({
   models,
   selectedModelId,
   onModelSelect,
   className,
-}) {
+}: ModelSelectorProps) {
   const [open, setOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [selectedForDetails, setSelectedForDetails] = useState(null);
+  const [selectedForDetails, setSelectedForDetails] = useState<Model | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const selectedModel = models.find((m) => m.id === selectedModelId);
 
- const formatContextLength = (length) => {
+ const formatContextLength = (length: number | null): string => {
   if (length == null) return "N/A"   // handles null & undefined
 
   if (length >= 1_000_000) return `${(length / 1_000_000).toFixed(1)}M`
@@ -43,19 +79,19 @@ export function ModelSelector({
 }
 
 
-  const isFreeModel = (model) => {
+  const isFreeModel = (model: Model): boolean => {
     return (
       model.pricing.prompt === "0" &&
       model.pricing.completion === "0" &&
       model.pricing.request === "0"
     );
   };
-   const openModelDetails = (model, e) => {
+   const openModelDetails = (model: Model, e: React.MouseEvent<HTMLButtonElement>): void => {
     e.stopPropagation();
     setSelectedForDetails(model);
     setDetailsOpen(true);
   };
-   const filteredModels = models.filter((model) => {
+   const filteredModels = models.filter((model: Model) => {
     const query = searchQuery.toLowerCase()
     return (
       model.name.toLowerCase().includes(query) ||
@@ -89,7 +125,7 @@ export function ModelSelector({
             <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent  className="w-[420px] p-0"
+        <PopoverContent  className="w-105 p-0"
   align="center"
   side="bottom"
   sideOffset={8}>
@@ -104,7 +140,7 @@ export function ModelSelector({
               />
             </div>
           </div>
-          <ScrollArea className="h-[400px]">
+          <ScrollArea className="h-100">
             <div className="p-2">
               <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
                 Available Models ({filteredModels.length})
@@ -114,7 +150,7 @@ export function ModelSelector({
                   No models found matching "{searchQuery}"
                 </div>
               ) : (
-                filteredModels.map((model) => (
+                filteredModels.map((model: Model) => (
                   <div
                     key={model.id}
                     className={cn(
@@ -178,7 +214,7 @@ export function ModelSelector({
             </DialogTitle>
             <DialogDescription>Detailed information about this AI model</DialogDescription>
           </DialogHeader>
-          <ScrollArea className=" pr-4 h-[570px]">
+          <ScrollArea className=" pr-4 h-142.5">
             {selectedForDetails && (
               <div className="space-y-6">
                 {/* Description */}
@@ -227,7 +263,7 @@ export function ModelSelector({
                     <div className="space-y-2">
                       <p className="text-xs text-muted-foreground">Input Modalities</p>
                       <div className="flex flex-wrap gap-1">
-                        {selectedForDetails.architecture.input_modalities.map((modality) => (
+                        {selectedForDetails.architecture.input_modalities.map((modality: string) => (
                           <Badge key={modality} variant="outline" className="text-xs">
                             {modality}
                           </Badge>
@@ -237,7 +273,7 @@ export function ModelSelector({
                     <div className="space-y-2">
                       <p className="text-xs text-muted-foreground">Output Modalities</p>
                       <div className="flex flex-wrap gap-1">
-                        {selectedForDetails.architecture.output_modalities.map((modality) => (
+                        {selectedForDetails.architecture.output_modalities.map((modality: string) => (
                           <Badge key={modality} variant="outline" className="text-xs">
                             {modality}
                           </Badge>
@@ -261,7 +297,7 @@ export function ModelSelector({
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 gap-3">
-                      {Object.entries(selectedForDetails.pricing).map(([key, value]) => {
+                      {Object.entries(selectedForDetails.pricing).map(([key, value]: [string, string]) => {
                         if (value === "0") return null
                         return (
                           <div key={key} className="space-y-1">

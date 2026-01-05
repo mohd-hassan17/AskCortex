@@ -6,7 +6,7 @@ import ChatMessageForm from "./chat-message-form";
 const ChatMessageView = ({ user }: any) => {
   const [selectedMessage, setSelectedMessage] = useState("");
   const [mode, setMode] = useState<"chat" | "research">("chat");
-  const [useWeb, setUseWeb] = useState(false);
+  // const [useWeb, setUseWeb] = useState(false);
 
   const handleMessageSelect = (message: any) => {
     setSelectedMessage(message);
@@ -32,7 +32,7 @@ const ChatMessageView = ({ user }: any) => {
           mode={mode}
           onModeChange={(val) => {
             setMode(val);
-            setUseWeb(val === "research");
+            // setUseWeb(val === "research");
           }}
         />
       </div>

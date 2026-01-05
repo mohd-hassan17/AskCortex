@@ -7,7 +7,7 @@ export const useCreateChat = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
   return useMutation({
-    mutationFn: async (values: { content: string; model: string }) =>
+    mutationFn: async (values: { content: string; model: string; mode?: "chat" | "research"; }) =>
       createChatWithMessage(values),
     onSuccess: (res) => {
       if (res.success && res.data) {
