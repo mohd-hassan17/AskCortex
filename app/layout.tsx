@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AskCortex",
     description: "AskCortex is your AI-powered research assistant.",
-    url: "http://localhost:3000",
+    url: "https://askcortex.vercel.app/",
     siteName: "AskCortex",
     images: [
       {
