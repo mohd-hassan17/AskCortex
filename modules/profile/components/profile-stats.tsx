@@ -16,7 +16,8 @@ export function ProfileStats({
   return (
     // Mobile: 1 column, Small Tablet: 3 columns. 
     // If you want 2 columns on mobile, use 'grid-cols-2 sm:grid-cols-3' and make the last one span 2.
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
       <StatCard 
         title="Chats" 
         value={chatCount} 
@@ -60,7 +61,10 @@ function StatCard({ title, value, icon }: any) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex items-center justify-between">
-        <div className="text-2xl font-semibold">{value}</div>
+        <div className="text-xl sm:text-2xl font-semibold truncate">
+  {value}
+</div>
+
         {icon}
       </CardContent>
     </Card>

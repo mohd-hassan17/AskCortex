@@ -19,11 +19,13 @@ export function RecentChats({ chats }: { chats: RecentChat[] }) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between px-6 py-4">
+      <CardHeader className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+
         <CardTitle className="text-lg">Recent Chats</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-2 p-4 pt-0">
+      <CardContent className="space-y-2 p-4 pt-0 max-h-[60vh] overflow-y-auto">
+
         {chats.length === 0 && (
           <div className="text-center py-8 text-sm text-muted-foreground">
             No chats started yet.
