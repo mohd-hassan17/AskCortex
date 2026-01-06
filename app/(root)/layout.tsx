@@ -5,9 +5,9 @@ import { headers } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { LucideShare, Share, Share2 } from "lucide-react";
 import Link from "next/link";
-import { ThemeToggle } from "@/lib/theme-toggle";
 import { currentUser } from "@/modules/auth/actions";
 import { getAllChats } from "@/modules/chat/actions";
+import { ShareButton } from "@/components/providers/ShareButton";
 
 export const metadata = {
   title: "AskCortex",
@@ -50,14 +50,15 @@ export default async function Layout({
                 </Button>
               ) : null}
 
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="sm"
                 className="flex items-center gap-1"
               >
                 <Share2 className="w-4 h-4" />
                 <span className="text-sm">Share</span>
-              </Button>
+              </Button> */}
+              <ShareButton />
             </div>
           </header>
           <main className="flex-1 overflow-hidden relative">

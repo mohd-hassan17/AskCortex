@@ -128,8 +128,8 @@ export function ModelSelector({
   {/* RESPONSIVE POPOVER CONTENT */}
   {/* RESPONSIVE POPOVER CONTENT */}
 <PopoverContent
-  // FIX: Added 'max-h-[var(--radix-popover-content-available-height)]' 
-  // This is a specialized Radix UI trick to ensure it never overflows the window
+  
+  onOpenAutoFocus={(e) => e.preventDefault()}
   className="w-[calc(100vw-20px)] sm:w-105 p-0" 
   align="start"
   side="bottom"
@@ -147,12 +147,7 @@ export function ModelSelector({
       />
     </div>
   </div>
-  
-  {/* MAJOR FIX HERE: 
-     1. Changed 'h-75' (invalid) to 'h-[300px]' (valid).
-     2. Changed 'sm:h-100' (invalid) to 'sm:h-[400px]' (valid).
-     3. Added 'max-h-[50vh]' for mobile landscape safety.
-  */}
+ 
   <ScrollArea className="h-75 max-h-[50vh] sm:max-h-none sm:h-100">
     <div className="p-2">
       <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">

@@ -8,6 +8,7 @@ import { Share2 } from "lucide-react";
 import Link from "next/link";
 import { currentUser } from "@/modules/auth/actions";
 import { getAllChats } from "@/modules/chat/actions";
+import { ShareButton } from "@/components/providers/ShareButton";
 
 export const metadata = {
   title: {
@@ -50,14 +51,8 @@ export default async function Layout({
                 </Button>
               ) : null}
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="flex items-center gap-1"
-              >
-                <Share2 className="w-4 h-4" />
-                <span className="text-sm">Share</span>
-              </Button>
+            
+              <ShareButton />
             </div>
           </header>
           <main className="flex-1 overflow-y-auto relative">{children}</main>
