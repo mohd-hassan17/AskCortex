@@ -87,12 +87,12 @@ export function NavProjects({
                 side={isMobile ? "bottom" : "right"}
                 align={isMobile ? "end" : "start"}
               >
-                <DropdownMenuItem>
                 <a href={`/chat/${chat.id}`}>
+                <DropdownMenuItem>
                   <Folder className="text-muted-foreground" />
                   <span>View Chat</span>
-                </a>
                 </DropdownMenuItem>
+                </a>
                 {/* <DropdownMenuItem>
                   <Forward className="text-muted-foreground" />
                   <span>Share Project</span>
