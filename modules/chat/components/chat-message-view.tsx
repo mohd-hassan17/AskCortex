@@ -15,28 +15,25 @@ const ChatMessageView = ({ user }: any) => {
     setSelectedMessage("");
   };
   return (
-    <div className="flex flex-col h-screen">
-      {/* Center content */}
-      <div className="flex flex-1 items-center justify-center">
-        <ChatWelcomeTabs
-          userName={user?.name}
-          onMessageSelect={handleMessageSelect}
-        />
-      </div>
+    <div className="flex flex-col h-dvh supports-[height:100svh]:h-svh w-full overflow-hidden">
+  <div className="flex-1 flex flex-col items-center justify-center overflow-y-auto w-full min-h-0">
+    <ChatWelcomeTabs
+      userName={user?.firstName || user?.name}
+      onMessageSelect={handleMessageSelect}
+    />
+  </div>
 
-      {/* Bottom input */}
-      <div className="p-15 ">
-        <ChatMessageForm
-          initialMessage={selectedMessage}
-          onMessageChange={handleMessageChange}
-          mode={mode}
-          onModeChange={(val) => {
-            setMode(val);
-            // setUseWeb(val === "research");
-          }}
-        />
-      </div>
-    </div>
+  <div className="w-full shrink-0 p-4 md:p-6 pb-6 md:pb-10 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 z-10">
+    <ChatMessageForm
+      initialMessage={selectedMessage}
+      onMessageChange={handleMessageChange}
+      mode={mode}
+      onModeChange={(val) => {
+        setMode(val);
+      }}
+    />
+  </div>
+</div>
   );
 };
 

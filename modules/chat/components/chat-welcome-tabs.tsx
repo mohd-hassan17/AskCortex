@@ -51,22 +51,26 @@ const CHAT_TAB_MESSAGE = [
 
 function ChatWelcomeTabs({ userName = "", onMessageSelect }: any) {
     const [activeTab, setActiveTab] = useState(0);
-    const twoWordsName = userName.split(" ").slice(0, 2).join(" ")
+    const twoWordsName = userName ? userName.split(" ").slice(0, 2).join(" ") : "there";
 
   return (
-    <div className="flex flex-col items-center justify-center px-4">
-      <div className="w-full max-w-3xl space-y-8">
-        <h1 className="text-4xl font-semibold">
+    <div className="flex flex-col items-center justify-center w-full px-4 md:px-0">
+      <div className="w-full max-w-3xl space-y-6 md:space-y-8">
+        
+        {/* Responsive Text: 2xl on mobile, 4xl on desktop */}
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-center md:text-left">
           How can I help you, {twoWordsName}?
         </h1>
 
-        <div className="flex flex-wrap gap-2 w-full">
+        {/* Tab Buttons */}
+        <div className="flex flex-wrap gap-2 w-full justify-center md:justify-start">
           {CHAT_TAB_MESSAGE.map((tab, index) => (
             <Button
               key={tab.tabName}
               variant={activeTab === index ? "default" : "secondary"}
               onClick={() => setActiveTab(index)}
-              className="w-27.5 justify-start"
+              // Mobile: Grow to fill space slightly, Desktop: fixed width
+              className="flex-1 sm:flex-none sm:w-auto min-w-25 justify-center sm:justify-start"
             >
               {tab.icon}
               <span className="ml-2">{tab.tabName}</span>
@@ -74,12 +78,13 @@ function ChatWelcomeTabs({ userName = "", onMessageSelect }: any) {
           ))}
         </div>
 
-        <div className="space-y-3 w-full min-h-60">
+        {/* Message Suggestions */}
+        <div className="space-y-2 md:space-y-3 w-full min-h-50 md:min-h-60">
           {CHAT_TAB_MESSAGE[activeTab].messages.map((message, index) => (
             <div key={index}>
               <button
                 onClick={() => onMessageSelect(message)}
-                className="w-full text-left text-sm text-muted-foreground hover:text-primary transition-colors duration-300 ease-in-out py-2"
+                className="w-full text-left text-sm md:text-base text-muted-foreground hover:text-primary transition-colors duration-300 ease-in-out py-2 md:py-3 active:scale-[0.99]"
               >
                 {message}
               </button>
@@ -90,7 +95,7 @@ function ChatWelcomeTabs({ userName = "", onMessageSelect }: any) {
           ))}
         </div>
       </div>
-    </div>
+    </div> 
   );
 }
 

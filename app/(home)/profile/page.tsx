@@ -12,42 +12,40 @@ export const metadata = {
 }
 
 const ProfilePage = async () => {
+  const profileData = await currentUser();
+  const overview = await getProfileOverview();
+  const modelUsage = await getModelUsage();
 
-     const profileData = await currentUser();
-     const overview = await getProfileOverview();
-     const modelUsage = await getModelUsage();
+  if (!profileData) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] py-12 px-4 text-center">
+        <h2 className="text-2xl font-semibold mb-2">User not found</h2>
+        <p className="text-muted-foreground">
+          The profile you are looking for does not exist.
+        </p>
+      </div>
+    );
+  }
 
-       if(!profileData){
-      return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-32">
-          <h2 className="text-2xl font-semibold mb-4">User not found</h2>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            The profile you are looking for does not exist.
-          </p>
+  return (
+    // Changed min-h-screen to min-h-dvh (dynamic viewport height)
+    // Reduced padding on mobile (py-6) vs desktop (py-12)
+    <div className="min-h-dvh py-6 md:py-12 bg-muted/30"> 
+      <div className="container mx-auto max-w-5xl px-4 space-y-6">
+        
+        <UserInfoCard userData={profileData} />
+
+        <ProfileStats
+          chatCount={overview.chatCount ?? 0}
+          messageCount={overview.messageCount ?? 0}
+          topModel={Array.isArray(modelUsage) ? modelUsage[0]?.model : undefined}
+        />
+
+        <div id="all-chats">
+          <RecentChats chats={overview.recentChats ?? []} />
         </div>
-      )
-    }
-
-    return(
- 
-  <div className="min-h-screen py-12">
-    <div className="container mx-auto max-w-7xl px-4 space-y-6">
-      <UserInfoCard userData={profileData} />
-
-      <ProfileStats
-        chatCount={overview.chatCount ?? 0}
-        messageCount={overview.messageCount ?? 0}
-        topModel={Array.isArray(modelUsage) ? modelUsage[0]?.model : undefined}
-      />
-
-     <div id="all-chats">
-  <RecentChats chats={overview.recentChats ?? []} />
-</div>
+      </div>
     </div>
-  </div>
-
-
-    )
-}
-
+  );
+};
 export default ProfilePage;

@@ -17,55 +17,39 @@ interface RecentChat {
 
 export function RecentChats({ chats }: { chats: RecentChat[] }) {
 
-//      const scrollToChats = () => {
-//     const container = document.querySelector(
-//       "[data-scroll-container]"
-//     ) as HTMLElement | null;
-
-//     const target = document.getElementById("all-chats");
-
-//     if (!container || !target) return;
-
-//     const containerTop = container.getBoundingClientRect().top;
-//     const targetTop = target.getBoundingClientRect().top;
-
-//     container.scrollTo({
-//       top: container.scrollTop + (targetTop - containerTop),
-//       behavior: "smooth",
-//     });
-//   };
-
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Recent Chats</CardTitle>
-        {/* <Button variant="ghost" size="sm" onClick={scrollToChats}>
-      View all
-      <ArrowDown className="ml-1 h-4 w-4" />
-    </Button> */}
+      <CardHeader className="flex flex-row items-center justify-between px-6 py-4">
+        <CardTitle className="text-lg">Recent Chats</CardTitle>
       </CardHeader>
 
-      <CardContent className="space-y-2">
+      <CardContent className="space-y-2 p-4 pt-0">
         {chats.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            No chats yet.
-          </p>
+          <div className="text-center py-8 text-sm text-muted-foreground">
+            No chats started yet.
+          </div>
         )}
 
         {chats.map((chat) => (
           <Link
             key={chat.id}
             href={`/chat/${chat.id}`}
-            className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-accent"
+            className="group flex items-center justify-between rounded-lg border p-3 md:p-4 transition-all hover:bg-muted/50 hover:border-primary/20"
           >
-            <div className="min-w-0">
-              <p className="truncate font-medium">{chat.title}</p>
+            <div className="min-w-0 flex-1 mr-3">
+              <div className="flex items-center gap-2 mb-1">
+                 {/* Truncate is crucial here for mobile */}
+                <p className="truncate font-medium text-sm md:text-base text-foreground group-hover:text-primary transition-colors">
+                  {chat.title || "Untitled Chat"}
+                </p>
+              </div>
+              
               <p className="text-xs text-muted-foreground">
                 Updated {formatDistanceToNow(new Date(chat.updatedAt))} ago
               </p>
             </div>
 
-            <Badge variant="outline" className="ml-3 shrink-0">
+            <Badge variant="outline" className="shrink-0 text-[10px] md:text-xs">
               {chat.model}
             </Badge>
           </Link>

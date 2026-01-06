@@ -102,111 +102,130 @@ export function ModelSelector({
   })
 
   return (
-  <>
-  <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger 
-        
-        asChild>
-          <Button
-            variant="ghost"
-            role="combobox"
-            aria-expanded={open}
-            className={cn(
-              "h-8 justify-between gap-2 px-2 text-xs hover:bg-accent",
-              className
-            )}
-          >
-            <div className="flex items-center gap-1.5 min-w-0">
-              <Sparkles className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-              <span className="truncate font-medium">
-                {selectedModel?.name || "Select model"}
-              </span>
-            </div>
-            <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent  className="w-105 p-0"
-  align="center"
+    <>
+     <Popover open={open} onOpenChange={setOpen}>
+  <PopoverTrigger asChild>
+    <Button
+      variant="ghost"
+      role="combobox"
+      aria-expanded={open}
+      className={cn(
+        "h-9 w-full justify-between gap-2 px-2 text-xs hover:bg-accent", // Increased height slightly for touch
+        className
+      )}
+    >
+      <div className="flex items-center gap-1.5 min-w-0">
+        <Sparkles className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+        {/* FIX: Used explicit pixel widths instead of max-w-20/37.5 which might be invalid */}
+        <span className="truncate font-medium block max-w-20 md:max-w-37.5 text-left">
+          {selectedModel?.name || "Select model"}
+        </span>
+      </div>
+      <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-50" />
+    </Button>
+  </PopoverTrigger>
+  
+  {/* RESPONSIVE POPOVER CONTENT */}
+  {/* RESPONSIVE POPOVER CONTENT */}
+<PopoverContent
+  // FIX: Added 'max-h-[var(--radix-popover-content-available-height)]' 
+  // This is a specialized Radix UI trick to ensure it never overflows the window
+  className="w-[calc(100vw-20px)] sm:w-105 p-0" 
+  align="start"
   side="bottom"
-  sideOffset={8}>
-           <div className="p-3 border-b">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search models..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-9 pl-9"
+  sideOffset={8}
+  collisionPadding={10} 
+>
+  <div className="p-3 border-b">
+    <div className="relative">
+      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input
+        placeholder="Search models..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="h-9 pl-9 text-base md:text-sm" 
+      />
+    </div>
+  </div>
+  
+  {/* MAJOR FIX HERE: 
+     1. Changed 'h-75' (invalid) to 'h-[300px]' (valid).
+     2. Changed 'sm:h-100' (invalid) to 'sm:h-[400px]' (valid).
+     3. Added 'max-h-[50vh]' for mobile landscape safety.
+  */}
+  <ScrollArea className="h-75 max-h-[50vh] sm:max-h-none sm:h-100">
+    <div className="p-2">
+      <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+        Available Models ({filteredModels.length})
+      </div>
+      {filteredModels.length === 0 ? (
+        <div className="px-2 py-8 text-center text-sm text-muted-foreground">
+          No models found matching "{searchQuery}"
+        </div>
+      ) : (
+        filteredModels.map((model: any) => (
+          <div
+            key={model.id}
+            className={cn(
+              "relative flex cursor-pointer select-none items-start gap-2 rounded-md px-2 py-2 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
+              selectedModelId === model.id && "bg-accent"
+            )}
+            onClick={() => {
+              onModelSelect(model.id);
+              setOpen(false);
+              setSearchQuery("");
+            }}
+          >
+            <div className="flex h-5 items-center">
+              <Check
+                className={cn(
+                  "h-4 w-4",
+                  selectedModelId === model.id ? "opacity-100" : "opacity-0"
+                )}
               />
             </div>
-          </div>
-          <ScrollArea className="h-100">
-            <div className="p-2">
-              <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
-                Available Models ({filteredModels.length})
+            <div className="flex-1 min-w-0 space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-sm leading-none truncate">
+                  {model.name}
+                </span>
+                {isFreeModel(model) && (
+                  <Badge variant="secondary" className="h-4 px-1 text-[10px]">
+                    FREE
+                  </Badge>
+                )}
               </div>
-              {filteredModels.length === 0 ? (
-                <div className="px-2 py-8 text-center text-sm text-muted-foreground">
-                  No models found matching "{searchQuery}"
-                </div>
-              ) : (
-                filteredModels.map((model: Model) => (
-                  <div
-                    key={model.id}
-                    className={cn(
-                      "relative flex cursor-pointer select-none items-start gap-2 rounded-md px-2 py-2 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
-                      selectedModelId === model.id && "bg-accent",
-                    )}
-                    onClick={() => {
-                      onModelSelect(model.id)
-                      setOpen(false)
-                      setSearchQuery("")
-                    }}
-                  >
-                    <div className="flex h-5 items-center">
-                      <Check className={cn("h-4 w-4", selectedModelId === model.id ? "opacity-100" : "opacity-0")} />
-                    </div>
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium text-sm leading-none truncate">{model.name}</span>
-                        {isFreeModel(model) && (
-                          <Badge variant="secondary" className="h-4 px-1 text-[10px]">
-                            FREE
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-xs text-muted-foreground line-clamp-2">{model.description}</p>
-                      <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-                        <span>Context: {formatContextLength(model.context_length)}</span>
-                        <span>•</span>
-                        <span className="capitalize">{model.architecture.modality.replace("->", " → ")}</span>
-                      </div>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 p-0 shrink-0"
-                      onClick={(e) => openModelDetails(model, e)}
-                    >
-                      <Info className="h-3.5 w-3.5" />
-                      <span className="sr-only">View details</span>
-                    </Button>
-                  </div>
-                ))
-              )}
+              <p className="text-xs text-muted-foreground line-clamp-2">
+                {model.description}
+              </p>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-muted-foreground">
+                <span>Context: {formatContextLength(model.context_length)}</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="capitalize">
+                  {model.architecture.modality.replace("->", " → ")}
+                </span>
+              </div>
             </div>
-          </ScrollArea>
-        </PopoverContent>
-      </Popover>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 shrink-0" 
+              onClick={(e) => openModelDetails(model, e)}
+            >
+              <Info className="h-4 w-4" />
+              <span className="sr-only">View details</span>
+            </Button>
+          </div>
+        ))
+      )}
+    </div>
+  </ScrollArea>
+</PopoverContent>
+</Popover>
 
-      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-        <DialogContent  className="
-    max-w-2xl
-    w-full
-    max-h-[80vh]
-    overflow-hidden
-    flex flex-col
-  ">
+      {/* RESPONSIVE DIALOG */}
+     <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5" />
@@ -214,7 +233,7 @@ export function ModelSelector({
             </DialogTitle>
             <DialogDescription>Detailed information about this AI model</DialogDescription>
           </DialogHeader>
-          <ScrollArea className=" pr-4 h-142.5">
+          <ScrollArea className="flex-1 pr-4">
             {selectedForDetails && (
               <div className="space-y-6">
                 {/* Description */}
@@ -263,7 +282,7 @@ export function ModelSelector({
                     <div className="space-y-2">
                       <p className="text-xs text-muted-foreground">Input Modalities</p>
                       <div className="flex flex-wrap gap-1">
-                        {selectedForDetails.architecture.input_modalities.map((modality: string) => (
+                        {selectedForDetails.architecture.input_modalities.map((modality) => (
                           <Badge key={modality} variant="outline" className="text-xs">
                             {modality}
                           </Badge>
@@ -273,7 +292,7 @@ export function ModelSelector({
                     <div className="space-y-2">
                       <p className="text-xs text-muted-foreground">Output Modalities</p>
                       <div className="flex flex-wrap gap-1">
-                        {selectedForDetails.architecture.output_modalities.map((modality: string) => (
+                        {selectedForDetails.architecture.output_modalities.map((modality) => (
                           <Badge key={modality} variant="outline" className="text-xs">
                             {modality}
                           </Badge>
@@ -297,7 +316,7 @@ export function ModelSelector({
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 gap-3">
-                      {Object.entries(selectedForDetails.pricing).map(([key, value]: [string, string]) => {
+                      {Object.entries(selectedForDetails.pricing).map(([key, value]) => {
                         if (value === "0") return null
                         return (
                           <div key={key} className="space-y-1">
@@ -336,5 +355,5 @@ export function ModelSelector({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

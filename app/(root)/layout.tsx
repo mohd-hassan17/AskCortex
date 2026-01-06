@@ -17,57 +17,54 @@ export const metadata = {
   },
 };
 
-export default async function RootLayout({
+export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(), 
-  });
+  // PERFORMANCE FIX: Fetch everything in parallel (faster load times)
+  const [session, user, chatsResponse] = await Promise.all([
+    auth.api.getSession({ headers: await headers() }),
+    currentUser(),
+    getAllChats(),
+  ]);
 
-  const user = await currentUser();
+  const chats = chatsResponse?.data;
 
-  const {data: chats} = await getAllChats();
- 
   return (
-   <SidebarProvider>
-  <div className="flex h-screen w-full bg-background text-foreground">
-    {/* Sidebar */}
-    <AppSidebar  user={user} chats={chats || []} />
-
-    {/* Content area */}
-    <div className="flex flex-1 flex-col bg-background">
-      {/* Top bar */}
-      <header className="p-2 border-b border-border flex items-center justify-between">
-        <SidebarTrigger />
-
-        <div className="flex items-center gap-3">
-          {!session?.user ? (
-            <Button asChild>
-              <Link href="/sign-in">Login</Link>
-            </Button>
-          ) : null}
-
-          {/* Share button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center gap-1"
-          >
-            <Share2 className="w-4 h-4" />
-            <span className="text-sm">Share</span>
-          </Button>
+    <SidebarProvider>
+      <div className="flex h-svh w-full bg-background text-foreground overflow-hidden">
+        
+        {/* Sidebar */}
+        <AppSidebar user={user} chats={chats || []} />
+        <div className="flex flex-1 flex-col min-h-0 bg-background">
           
-        </div>
-      </header>
+          {/* Top bar - flex-none ensures it doesn't shrink */}
+          <header className="flex-none p-2 border-b border-border flex items-center justify-between z-10">
+            <SidebarTrigger />
 
-      {/* Page area */}
-      <main className="h-screen overflow-hidden">
-        {children}
-      </main>
-    </div>
-  </div>
-</SidebarProvider>
+            <div className="flex items-center gap-3">
+              {!session?.user ? (
+                <Button asChild>
+                  <Link href="/sign-in">Login</Link>
+                </Button>
+              ) : null}
+
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-1"
+              >
+                <Share2 className="w-4 h-4" />
+                <span className="text-sm">Share</span>
+              </Button>
+            </div>
+          </header>
+          <main className="flex-1 overflow-hidden relative">
+            {children}
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
   );
 }

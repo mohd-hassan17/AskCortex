@@ -92,30 +92,16 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            {/* <DropdownMenuSeparator /> */}
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup> */}
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
              
+                 <Link href="/profile">
               <DropdownMenuItem>
                 <PersonStandingIcon />
-                 <Link href="/profile">
                 Profile
-                 </Link>
               </DropdownMenuItem>
-              {/* <DropdownMenuItem>
-                <Settings />
-                Settings
-              </DropdownMenuItem> */}
-              {/* <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem> */}
+                 </Link>
+ 
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={onLogout}  >
