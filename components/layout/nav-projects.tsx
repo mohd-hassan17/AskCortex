@@ -74,9 +74,7 @@ export function NavProjects({
                 <span>{chat.title}</span>
               </a>
              
-            </SidebarMenuButton>
-            
-           
+            </SidebarMenuButton>          
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
@@ -90,13 +88,15 @@ export function NavProjects({
                 align={isMobile ? "end" : "start"}
               >
                 <DropdownMenuItem>
+                <a href={`/chat/${chat.id}`}>
                   <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
+                  <span>View Chat</span>
+                </a>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Forward className="text-muted-foreground" />
                   <span>Share Project</span>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="flex items-center" variant="destructive">
                   <Trash2 className="text-muted-foreground " />
