@@ -20,7 +20,7 @@ const UserInfoCard = ({ userData }) => {
       <CardContent className="p-6 md:p-8">
         {/* Theme Toggle - Absolute on desktop, but we handle mobile overlap via flex layout below if needed */}
         <div className="absolute top-4 right-4 z-10">
-           {/* <ThemeToggle /> */} 
+           {/* <ThemeToggle />  */}
            {/* Placeholder for your toggle */}
         </div>
 
@@ -48,9 +48,9 @@ const UserInfoCard = ({ userData }) => {
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight truncate">
                 {userData.name}
               </h1>
-              <p className="text-muted-foreground text-sm font-medium">
+              {/* <p className="text-muted-foreground text-sm font-medium">
                  Full-Stack AI Engineer
-              </p>
+              </p> */}
             </div>
 
             {/* Email & Role */}
