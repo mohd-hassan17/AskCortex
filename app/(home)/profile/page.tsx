@@ -26,10 +26,8 @@ const ProfilePage = async () => {
       </div>
     );
   }
-
   return (
-    // Changed min-h-screen to min-h-dvh (dynamic viewport height)
-    // Reduced padding on mobile (py-6) vs desktop (py-12)
+   
     <div className="min-h-dvh py-6 md:py-12 bg-muted/30"> 
       <div className="container mx-auto max-w-5xl px-4 space-y-6">
         

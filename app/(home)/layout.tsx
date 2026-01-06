@@ -13,9 +13,10 @@ export const metadata = {
   title: {
     default: "Features | AskCortex",
     template: " AskCortex | %s",
-    absolute: ""
+    absolute: "",
   },
-  description: "Discover the powerful features of AskCortex, your AI-powered assistant for seamless knowledge management and collaboration.",
+  description:
+    "Discover the powerful features of AskCortex, your AI-powered assistant for seamless knowledge management and collaboration.",
 };
 
 export default async function Layout({
@@ -35,11 +36,9 @@ export default async function Layout({
   return (
     <SidebarProvider>
       <div className="flex h-svh w-full bg-background text-foreground overflow-hidden">
-        
         {/* Sidebar */}
         <AppSidebar user={user} chats={chats || []} />
         <div className="flex flex-1 flex-col min-h-0 bg-background">
-          
           {/* Top bar - flex-none ensures it doesn't shrink */}
           <header className="flex-none p-2 border-b border-border flex items-center justify-between z-10">
             <SidebarTrigger />
@@ -61,9 +60,7 @@ export default async function Layout({
               </Button>
             </div>
           </header>
-          <main className="flex-1 overflow-hidden relative">
-            {children}
-          </main>
+          <main className="flex-1 overflow-y-auto relative">{children}</main>
         </div>
       </div>
     </SidebarProvider>
