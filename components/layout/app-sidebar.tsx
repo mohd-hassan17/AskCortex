@@ -288,7 +288,7 @@ export function AppSidebar({
         </SidebarMenuItem>
       </SidebarHeader>
       <Dialog>
-      <SidebarContent>
+      <SidebarContent >
         <SidebarGroup>
           <SidebarContent>
             <SidebarMenu>
@@ -334,7 +334,7 @@ export function AppSidebar({
       </SidebarContent>
 
       {/* //Dialog for Search Chats */}
-      <DialogContent className="max-w-xl p-0 max-h-[80vh]">
+      <DialogContent className="max-w-xl p-0 max-h-[80vh]" onOpenAutoFocus={(e) => e.preventDefault()}>
   {/* Header */}
   <div className="border-b px-4 py-3">
     <DialogTitle className="text-base font-semibold">
@@ -350,7 +350,8 @@ export function AppSidebar({
       <div className="relative">
         <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search your threads..."
+          // onOpenAutoFocus={(e) => e.preventDefault()}
+          placeholder="Search your chats..."
           className="pl-9 bg-sidebar-accent border-sidebar-border pr-8"
           value={searchQuery}
           onChange={handleSearchChange}
