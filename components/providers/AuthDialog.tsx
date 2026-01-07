@@ -24,7 +24,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
       <DialogContent className="sm:max-w-100 p-0 overflow-hidden border-none shadow-2xl">
         
         {/* Decorative Top Gradient */}
-        <div className="h-32 bg-linear-to-br from-primary/20 via-primary/10 to-background flex items-center justify-center relative">
+        <div className="h-32  flex items-center justify-center relative">
             <div className="absolute inset-0 bg-grid-white/10 mask-[linear-gradient(0deg,transparent,black)]" />
             
             <div className="relative z-10 p-4 rounded-full bg-background/50 backdrop-blur-xl border border-white/20 shadow-lg ring-1 ring-black/5">
@@ -65,7 +65,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
           <div className="space-y-3">
             <Button asChild size="lg" className="w-full font-semibold rounded-xl text-md h-12 shadow-md hover:shadow-lg transition-all">
               <Link href="/sign-in" className="flex items-center gap-2">
-                Log in or Sign up
+                Sign up
                 <ArrowRight className="h-4 w-4 opacity-70" />
               </Link>
             </Button>
