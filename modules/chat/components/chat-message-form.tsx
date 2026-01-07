@@ -17,6 +17,9 @@ interface ChatMessageFormProps {
   isLoading?: boolean;
   mode?: "chat" | "research";
   onModeChange?: (mode: "chat" | "research") => void;
+  user: any;
+  // 1. Add the new prop to the interface (optional, returns boolean)
+  onGuestTry?: () => boolean;
 }
 
 export default function ChatMessageForm({
@@ -25,6 +28,8 @@ export default function ChatMessageForm({
   isLoading,
   mode = "chat",
   onModeChange,
+  user,
+  onGuestTry,
 }: ChatMessageFormProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const {mutateAsync, isPending: isChatPending } = useCreateChat();
@@ -51,6 +56,14 @@ export default function ChatMessageForm({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+      // if(!user){
+      //   toast.error("Please sign in to send messages");
+      //   return;
+      // }
+      if (onGuestTry) {
+       const shouldProceed = onGuestTry();
+       if (!shouldProceed) return; // Stop here! The AuthDialog is now opening.
+    }
       if(!selectedModel){
         toast.error("Please select a model");
         return;
