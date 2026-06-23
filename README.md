@@ -40,20 +40,6 @@ AskCortex is an AI-powered chat platform that enables users to interact with mul
 * Vector Search
 * Retrieval-Augmented Generation (RAG)
 
-## 📸 Screenshots
-
-### Dashboard / Chat Interface
-
-![Dashboard Screenshot](<img width="1919" height="946" alt="ask1" src="https://github.com/user-attachments/assets/f40876c2-ab8c-4d09-99f1-0cc5b73a5e2b" />)
-
-### Document Upload & RAG
-
-![RAG Screenshot](<img width="1917" height="937" alt="image" src="https://github.com/user-attachments/assets/aa58dc71-1e29-43ea-9f0d-02c3e9f2bf59" />)
-
-### Multi-Model Chat Experience
-
-![Chat Screenshot](<img width="1500" height="892" alt="image" src="https://github.com/user-attachments/assets/a462f1a2-dbf9-46ad-9cd7-19256ee37c0f" />)
-
 ## 🏗️ Architecture
 
 1. Users authenticate and access the platform.
