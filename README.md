@@ -44,7 +44,7 @@ AskCortex is an AI-powered chat platform that enables users to interact with mul
 
 ### Dashboard / Chat Interface
 
-![Dashboard Screenshot](<img width="1919" height="946" alt="image" src="https://github.com/user-attachments/assets/84e536aa-06eb-4793-83eb-ea4d2120b734" />)
+![Dashboard Screenshot](<img width="1919" height="946" alt="ask1" src="https://github.com/user-attachments/assets/f40876c2-ab8c-4d09-99f1-0cc5b73a5e2b" />)
 
 ### Document Upload & RAG
 
